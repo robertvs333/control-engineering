@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://robertvs333.github.io/control-engineering/DesignForPerformance.html</loc>
-    <lastmod>2026-10-26T15:58:23.170Z</lastmod>
+    <lastmod>2026-10-26T18:19:53.073Z</lastmod>
   </url>
   <url>
-    <loc>https://robertvs333.github.io/control-engineering/background.html</loc>
-    <lastmod>2026-10-26T15:58:23.180Z</lastmod>
-  </url>
-  <url>
-    <loc>https://robertvs333.github.io/control-engineering/Sample.html</loc>
-    <lastmod>2026-10-26T15:58:23.174Z</lastmod>
-  </url>
-  <url>
-    <loc>https://robertvs333.github.io/control-engineering/FRFMeasurements.html</loc>
-    <lastmod>2026-10-26T15:58:23.174Z</lastmod>
+    <loc>https://robertvs333.github.io/control-engineering/Feedforward.html</loc>
+    <lastmod>2026-10-26T18:19:53.078Z</lastmod>
   </url>
   <url>
     <loc>https://robertvs333.github.io/control-engineering/index.html</loc>
-    <lastmod>2026-10-26T15:58:23.180Z</lastmod>
+    <lastmod>2026-10-26T18:19:53.084Z</lastmod>
+  </url>
+  <url>
+    <loc>https://robertvs333.github.io/control-engineering/FRFMeasurements.html</loc>
+    <lastmod>2026-10-26T18:19:53.077Z</lastmod>
+  </url>
+  <url>
+    <loc>https://robertvs333.github.io/control-engineering/Sample.html</loc>
+    <lastmod>2026-10-26T18:19:53.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://robertvs333.github.io/control-engineering/background.html</loc>
+    <lastmod>2026-10-26T18:19:53.084Z</lastmod>
   </url>
   <url>
     <loc>https://robertvs333.github.io/control-engineering/Stability.html</loc>
-    <lastmod>2026-10-26T15:58:23.179Z</lastmod>
+    <lastmod>2026-10-26T18:19:53.083Z</lastmod>
   </url>
 </urlset>
