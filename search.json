@@ -35,18 +35,39 @@
     "text": "Loop shaping"
   },
   {
-    "objectID": "Feedforward.html",
-    "href": "Feedforward.html",
-    "title": "E) Feedforward",
+    "objectID": "SampledSystems.html",
+    "href": "SampledSystems.html",
+    "title": "F) Sampled systems and discrete-time domain",
     "section": "",
-    "text": "Trajectory planning is a technique in which you simplify the trajectory which ensures that the error gets lower. Most often uses more differentiable signals. This leads to: - less oscillations - possibly faster settling times - smaller control signals\nThe DC-gain is the steady-state ain of a system where \\(\\omega\\) is 0. Often this is $\nFeedforward is added to after the controller. Mostly the feedforward should actually be the inverse of the plant. However if the plant is unstable or unknown then we need to approximate the inverse of the plant in the time domain. Generally you forward the forces that are needed to: - accelerate the rigid body mode of the plant \\(F_a = K_{fa}\\ddot x_s\\) - overcome the viscous friction with the fixed world: \\(F_v = K_{fv} \\dot x_s\\) - overcome the coulomb friction with the fixed world: \\(F_c = K_{fc} \\cdot sign(\\dot x_s)\\)"
+    "text": "Sometimes you can implement a controller that should theoretically be stable but is not stable. Due to the sampling.\n\n\n\nimage.png\n\n\n\\(C(s)\\) is therefore not the same as \\(C(z)\\). This can be solved by using two solutions: - Design it in the z-domain - discretize the filter, this is of course dependent on the sample rate\n\n\n\nimage.png\n\n\nMost controllers (99%) actually hold a signal because your plant expects a real-time input. You now have a delay of \\(1/2T_s\\) This creates a phase delay at least 90 degrees."
   },
   {
-    "objectID": "Feedforward.html#tuning-of-feedforward",
-    "href": "Feedforward.html#tuning-of-feedforward",
-    "title": "E) Feedforward",
-    "section": "Tuning of Feedforward",
-    "text": "Tuning of Feedforward\n\n\n\nimage.png\n\n\nThe best trajectory to tune the parameters is approx 1/3 acceleration, 1/3 constant velocity, 1/3 deceleration.\nFirst the \\(K_{fc}\\) should be tuned. In such a way that the deceleration of the forward movement and acceleration of the backward movement have the same error.\nSecondly the \\(K_{fv}\\) must be tunes. There should be no error during constant velocity phases when \\(K_{fc}\\) and \\(K_{fv}\\) are correct.\nThirdly \\(K_{fa}\\) must be tuned to minize the error during acceleration and deceleration.\nFor this tuning the feedback controller should be just good enough to reasonably control the plant but should be not too good such that the error deminishes. The frequency of the reference signal should be such that the magnitude of the closed loop sensitivity is around -40. Or the bandwidth $f_{bw} hz $ where \\(t_{phase}\\) is the length of each phase."
+    "objectID": "background.html",
+    "href": "background.html",
+    "title": "A) Background and prerequisites",
+    "section": "",
+    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more inforamtion: - the amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input - Amplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\nIn physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
+  },
+  {
+    "objectID": "Sample.html",
+    "href": "Sample.html",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "Sample.html#testing-custom-styles",
+    "href": "Sample.html#testing-custom-styles",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "FRFMeasurements.html",
+    "href": "FRFMeasurements.html",
+    "title": "B) FRF measurements",
+    "section": "",
+    "text": "A time signal can be adjusted to frequency by using Fourier series expansion.\n\n\n\nimage.png\n\n\nThe power of a signal is the RMS value which is the root mean squared. The Parseval’s theorem states that the power in time domain is equal to the power in frequency domain. The power per frequency is called the power spectral density (PSD). Using therefore RMS and parseval theorem and given the complex fourier series that results in:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nTherefore minimzing the error RMS requires the minimization of the cumulative PSD. So using this you can shape your sensetivity to adjust for specific frequency ranges.\n\n\n\nimage.png\n\n\nThe common power per frequency is then given as: This is also known as Cross Power Spectral Density (CPSD). To find whether 2 signals are simalar you compute CPSD of several frames of the signals and average them. Therefore averaging has affect on the outcome of this. CPSD is a complex number and therefore also has a phase.\n You multiply with the complex conjugate of the input Fourier transform. Such that it sets up the math to isolate correlated signals from uncorrelated noise using CPSD. We can minize the effect of \\(v(t)\\) by: - making sure \\(u(t)\\) and \\(v(t)\\) are uncorrelated - by taking multiple data series \\(N\\) and averaging them\nCoherence\nIt basiclly says how reliable our measurement is.\n\n\n\nimage.png\n\n\nBut also averaging is applied such that it is more reliable\n\n\n\nimage.png"
   },
   {
     "objectID": "index.html",
@@ -70,32 +91,18 @@
     "text": "Lecture Notes"
   },
   {
-    "objectID": "FRFMeasurements.html",
-    "href": "FRFMeasurements.html",
-    "title": "B) FRF measurements",
+    "objectID": "Feedforward.html",
+    "href": "Feedforward.html",
+    "title": "E) Feedforward",
     "section": "",
-    "text": "A time signal can be adjusted to frequency by using Fourier series expansion.\n\n\n\nimage.png\n\n\nThe power of a signal is the RMS value which is the root mean squared. The Parseval’s theorem states that the power in time domain is equal to the power in frequency domain. The power per frequency is called the power spectral density (PSD). Using therefore RMS and parseval theorem and given the complex fourier series that results in:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nTherefore minimzing the error RMS requires the minimization of the cumulative PSD. So using this you can shape your sensetivity to adjust for specific frequency ranges.\n\n\n\nimage.png\n\n\nThe common power per frequency is then given as: This is also known as Cross Power Spectral Density (CPSD). To find whether 2 signals are simalar you compute CPSD of several frames of the signals and average them. Therefore averaging has affect on the outcome of this. CPSD is a complex number and therefore also has a phase.\n You multiply with the complex conjugate of the input Fourier transform. Such that it sets up the math to isolate correlated signals from uncorrelated noise using CPSD. We can minize the effect of \\(v(t)\\) by: - making sure \\(u(t)\\) and \\(v(t)\\) are uncorrelated - by taking multiple data series \\(N\\) and averaging them\nCoherence\nIt basiclly says how reliable our measurement is.\n\n\n\nimage.png\n\n\nBut also averaging is applied such that it is more reliable\n\n\n\nimage.png"
+    "text": "Trajectory planning is a technique in which you simplify the trajectory which ensures that the error gets lower. Most often uses more differentiable signals. This leads to: - less oscillations - possibly faster settling times - smaller control signals\nThe DC-gain is the steady-state ain of a system where \\(\\omega\\) is 0. Often this is $\nFeedforward is added to after the controller. Mostly the feedforward should actually be the inverse of the plant. However if the plant is unstable or unknown then we need to approximate the inverse of the plant in the time domain. Generally you forward the forces that are needed to: - accelerate the rigid body mode of the plant \\(F_a = K_{fa}\\ddot x_s\\) - overcome the viscous friction with the fixed world: \\(F_v = K_{fv} \\dot x_s\\) - overcome the coulomb friction with the fixed world: \\(F_c = K_{fc} \\cdot sign(\\dot x_s)\\)"
   },
   {
-    "objectID": "Sample.html",
-    "href": "Sample.html",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
-  },
-  {
-    "objectID": "Sample.html#testing-custom-styles",
-    "href": "Sample.html#testing-custom-styles",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
-  },
-  {
-    "objectID": "background.html",
-    "href": "background.html",
-    "title": "A) Background and prerequisites",
-    "section": "",
-    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more inforamtion: - the amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input - Amplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\nIn physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
+    "objectID": "Feedforward.html#tuning-of-feedforward",
+    "href": "Feedforward.html#tuning-of-feedforward",
+    "title": "E) Feedforward",
+    "section": "Tuning of Feedforward",
+    "text": "Tuning of Feedforward\n\n\n\nimage.png\n\n\nThe best trajectory to tune the parameters is approx 1/3 acceleration, 1/3 constant velocity, 1/3 deceleration.\nFirst the \\(K_{fc}\\) should be tuned. In such a way that the deceleration of the forward movement and acceleration of the backward movement have the same error.\nSecondly the \\(K_{fv}\\) must be tunes. There should be no error during constant velocity phases when \\(K_{fc}\\) and \\(K_{fv}\\) are correct.\nThirdly \\(K_{fa}\\) must be tuned to minize the error during acceleration and deceleration.\nFor this tuning the feedback controller should be just good enough to reasonably control the plant but should be not too good such that the error deminishes. The frequency of the reference signal should be such that the magnitude of the closed loop sensitivity is around -40. Or the bandwidth $f_{bw} hz $ where \\(t_{phase}\\) is the length of each phase."
   },
   {
     "objectID": "Stability.html",
