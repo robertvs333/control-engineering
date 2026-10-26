@@ -3,6 +3,8 @@
     "listing": "/index.html",
     "items": [
       "/background.html",
+      "/FRFMeasurements.html",
+      "/Stability.html",
       "/Sample.html"
     ]
   }

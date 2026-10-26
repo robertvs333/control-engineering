@@ -1,24 +1,24 @@
 [
   {
-    "objectID": "background.html",
-    "href": "background.html",
-    "title": "A) Background and prerequisites",
+    "objectID": "Stability.html",
+    "href": "Stability.html",
+    "title": "C) Stability",
     "section": "",
-    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more inforamtion: - the amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input - Amplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\nIn physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
+    "text": "When using a feedback controller the poles become the zeros. However everytime checking how these poles changes based on the controller is not really feasible or intuitive, that is why nyquist criterion is designed\nThis criterion is based on encirclements the number of clockwise encirclements of the origin is denoted by \\(N=Z-P\\) in which Z is the number of enclosed zeors and P is the number of enclosed poles. this is evaluated on 1 + L(s) because: - Poles of 1 + L(s) -&gt; open-loop poles - Zeros of 1 + L(s) -&gt; closed-loop poles\nThe closed loop is stable when \\(Z\\) is 0 and therefore \\(Z=N+P=0\\)\nHowever this can be simplified to instead of 1+L(s) encirclements of origin to just L(s) encirclements of point(-1,0)\nThis can be translated to the bode plot and therefore a bode plot (L(s)) has the following necessary conditions for stability: - Slope $ at \\(w_{co}\\) - the phase must be between -180 and 0, therefore the curve meest keep (-1,0) to its left. - It must enter the unit disc to its left\nHowever the following sufficient conditions must also hold: - All poles and zeros of \\(L(S)=C(s)H(s)\\) must lie strictly in the LHP - Single crossover. The magnitude crosses 0dB once and never crosses it again."
   },
   {
-    "objectID": "Sample.html",
-    "href": "Sample.html",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+    "objectID": "Stability.html#stability-margins",
+    "href": "Stability.html#stability-margins",
+    "title": "C) Stability",
+    "section": "Stability Margins",
+    "text": "Stability Margins\nA system is stable or not however it does have some robustness measurements. These are also called phase margin and gain margin. They are also provided in the plot below.\nThe PM is the phase lead above -180 at the frequency where \\(|L(s)| = 0dB\\),\nThe inverse of GM is the gain at the frequency where \\(\\angle L(j\\omega) = -180^\\circ\\)\nThe modulus margin (MM) is the inverse of the smallest distance of \\(L(j\\omega)\\) over all \\(\\omega\\) to the point -1. The distance of the point -1 to \\(L(j\\omega)\\) is given by: \\[L(j\\omega) - (-1) = 1 + L(j\\omega)\\]\nNote that the modulus margin is therefore the minimal value of this function. Also know that the Sensitivity is given as: \\[S(j\\omega) = \\frac{1}{1 + L(j\\omega)}\\] Therefore sensitivity is the inverse of the distance and therefore the minimal value of the distance function is the same as the maximal value of the sensitivity function."
   },
   {
-    "objectID": "Sample.html#testing-custom-styles",
-    "href": "Sample.html#testing-custom-styles",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+    "objectID": "Stability.html#what-does-that-mean-for-designing-a-controller",
+    "href": "Stability.html#what-does-that-mean-for-designing-a-controller",
+    "title": "C) Stability",
+    "section": "What does that mean for designing a controller",
+    "text": "What does that mean for designing a controller\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png"
   },
   {
     "objectID": "index.html",
@@ -40,5 +40,33 @@
     "title": "4CM00 Control-engineering",
     "section": "Lecture Notes",
     "text": "Lecture Notes"
+  },
+  {
+    "objectID": "FRFMeasurements.html",
+    "href": "FRFMeasurements.html",
+    "title": "B) FRF measurements",
+    "section": "",
+    "text": "A time signal can be adjusted to frequency by using Fourier series expansion.\n\n\n\nimage.png\n\n\nThe power of a signal is the RMS value which is the root mean squared. The Parseval’s theorem states that the power in time domain is equal to the power in frequency domain. The power per frequency is called the power spectral density (PSD). Using therefore RMS and parseval theorem and given the complex fourier series that results in:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nTherefore minimzing the error RMS requires the minimization of the cumulative PSD. So using this you can shape your sensetivity to adjust for specific frequency ranges.\n\n\n\nimage.png\n\n\nThe common power per frequency is then given as: This is also known as Cross Power Spectral Density (CPSD). To find whether 2 signals are simalar you compute CPSD of several frames of the signals and average them. Therefore averaging has affect on the outcome of this. CPSD is a complex number and therefore also has a phase.\n You multiply with the complex conjugate of the input Fourier transform. Such that it sets up the math to isolate correlated signals from uncorrelated noise using CPSD. We can minize the effect of \\(v(t)\\) by: - making sure \\(u(t)\\) and \\(v(t)\\) are uncorrelated - by taking multiple data series \\(N\\) and averaging them\nCoherence\nIt basiclly says how reliable our measurement is.\n\n\n\nimage.png\n\n\nBut also averaging is applied such that it is more reliable\n\n\n\nimage.png"
+  },
+  {
+    "objectID": "Sample.html",
+    "href": "Sample.html",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "Sample.html#testing-custom-styles",
+    "href": "Sample.html#testing-custom-styles",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "background.html",
+    "href": "background.html",
+    "title": "A) Background and prerequisites",
+    "section": "",
+    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more inforamtion: - the amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input - Amplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\nIn physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
   }
 ]
