@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/background.html",
       "/Sample.html"
     ]
   }
