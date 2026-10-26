@@ -74,6 +74,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -142,6 +171,30 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)</p>
+<p>Deriving the limits is done using the following:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="background_files/figure-html/38df8bb1-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="background_files/figure-html/90d9791e-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="background_files/figure-html/62ac477a-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>The bode plot contains also more inforamtion: - the amplitude for <span class="math inline">\(\omega -&gt; 0\)</span> gives steady state ain in the output for a constant input - Amplitude for <span class="math inline">\(\omega -&gt; \inf\)</span> denotes the direct feedthrough: it denotes the output gain at a step on the input</p>
+<p>In physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.</p>
+<p>A RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance</p>
+<p>What is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth</p>
 
 
 
