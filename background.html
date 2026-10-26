@@ -195,6 +195,18 @@ window.Quarto = {
 <p>In physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.</p>
 <p>A RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance</p>
 <p>What is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth</p>
+<p><strong>Interpreting bode plot</strong></p>
+<ol type="1">
+<li>Start at low Frequencies: Determine the number of integrators</li>
+<li>Move to high freq: Determine Relative degree: the slope corresponds to the relative degree</li>
+<li>Mid-Freq:
+<ul>
+<li>Resonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.</li>
+<li>Break points (Real poles &amp; zeros)</li>
+<li>the crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB</li>
+<li>The phase margin is the phase difference between the phase and -180 at this crossover frequency</li>
+</ul></li>
+</ol>
 
 
 
