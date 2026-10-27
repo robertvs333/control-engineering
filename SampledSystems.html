@@ -146,8 +146,21 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#discrete-time-systems" id="toc-discrete-time-systems" class="nav-link active" data-scroll-target="#discrete-time-systems">Discrete time systems</a></li>
+  <li><a href="#how-to-convert-controller-from-continuous-to-discretized-time" id="toc-how-to-convert-controller-from-continuous-to-discretized-time" class="nav-link" data-scroll-target="#how-to-convert-controller-from-continuous-to-discretized-time">How to convert controller from continuous to discretized time?</a>
+  <ul class="collapse">
+  <li><a href="#time-domain-approximations" id="toc-time-domain-approximations" class="nav-link" data-scroll-target="#time-domain-approximations">Time domain approximations</a></li>
+  <li><a href="#tustin-with-prewarping" id="toc-tustin-with-prewarping" class="nav-link" data-scroll-target="#tustin-with-prewarping">Tustin with prewarping</a></li>
+  <li><a href="#pole-zero-matching" id="toc-pole-zero-matching" class="nav-link" data-scroll-target="#pole-zero-matching">Pole-zero matching</a></li>
+  </ul></li>
+  <li><a href="#general-remarks" id="toc-general-remarks" class="nav-link" data-scroll-target="#general-remarks">General remarks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -186,8 +199,116 @@ window.Quarto = {
 </figure>
 </div>
 <p>Most controllers (99%) actually hold a signal because your plant expects a real-time input. You now have a delay of <span class="math inline">\(1/2T_s\)</span> This creates a phase delay at least 90 degrees.</p>
+<section id="discrete-time-systems" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-time-systems">Discrete time systems</h2>
+<p>Differentiation in time domain is actually the same as difference in discrete time domain because you are just measuring the difference in time stamp k and time stamp k+1. That is why you can write this also down as: <span class="math display">\[
+\begin{aligned}
+x(k+1)&amp;=zx(k)\\
+x(k-1)&amp;=z^{-1}x(k)\\
+x(k-N)&amp;=z^{-N}x(k)
+\end{aligned}
+\]</span> This means that the shift operator z is the discrete counterpart of laplace variable s: <span class="math display">\[\begin{equation}
+\dot{x}(s) = sx(s) &lt;-&gt; x(k+1) = zx(k)
+\end{equation}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/2e7ae419-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>However you can also do this reversed so that:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/bc5ceec2-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>The difference equations are very easy to implement in code.</p>
+<p>For stability some differences occur. these are provided in the image below: <img src="SampledSystems_files/figure-html/735a081d-1-image.png" class="img-fluid" alt="image.png"></p>
+<p>However in discrete omega is most often like the following: <img src="SampledSystems_files/figure-html/d55e3e16-1-image.png" class="img-fluid" alt="image.png"></p>
+<p>the stability is only when <span class="math inline">\(|a| &lt; 1\)</span> because: <img src="SampledSystems_files/figure-html/b23623d9-1-image.png" class="img-fluid" alt="image.png"></p>
+<p>So that means poles can be on the RHP as long as they are in the unit discs. When the zeros are outside the unit discs they are minimum phase systems.</p>
+<p>We substitute <span class="math inline">\(ze^{j\omega}\)</span> which is the stability boundary just like in continous into <span class="math inline">\(H(z)\)</span> to obtain <span class="math inline">\(H(jw)\)</span>.</p>
+<p>Because you are evaluating over the unit disc instead of over the imaginary axis you get taht the infromation in the bode blot is repeating itself. <img src="SampledSystems_files/figure-html/2fa7b547-1-image.png" class="img-fluid" alt="image.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/cdd941bf-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/3d6f768c-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>However it is easy to derive the impulse response. You just have to write it in the form: <img src="SampledSystems_files/figure-html/4651ff71-1-image.png" class="img-fluid" alt="image.png"></p>
+<p>General expansion of <span class="math inline">\(H(z)\)</span> is infinite. Sometimes it is a Finite Impulse Response. This is also called a FIR.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/0bf280ee-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+</section>
+<section id="how-to-convert-controller-from-continuous-to-discretized-time" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-convert-controller-from-continuous-to-discretized-time">How to convert controller from continuous to discretized time?</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/54d8b276-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<section id="time-domain-approximations" class="level3">
+<h3 class="anchored" data-anchor-id="time-domain-approximations">Time domain approximations</h3>
+<p>In this we have to make assumptions on behaviour of <span class="math inline">\(u(t)\)</span> between samples. Aka we have to assume waht the controller is doing between t(k) and t(k+1). for eurler this is to hold so <span class="math inline">\(u(t)\)</span> is constant between samples for Tusin, this means that there is a linear change from u(k-1) to u(k). For the upcoming explanation we are going to use continuous time integrator <span class="math inline">\(C(s) = \frac{1}{s}\)</span>. To explain how to achieve this. Btw a integrator is basically trying to calculate the surface beneath the curve <span class="math inline">\(u(t)\)</span>.</p>
+<p>For euler there are two methods one is called the forward euler. This is based on the forward difference quotient: <span class="math display">\[
+\begin{aligned}
+\dot{y}(t)&amp;=u(t)\\
+\dot{y}(t)&amp;\approx \frac{y(t+T)-y(t)}{T} =&gt;\frac{y(k+1)-y(k)}{T} = u(k)
+\end{aligned}
+\]</span></p>
+<p>Shifting this in time gives: <span class="math display">\[
+\frac{y(k)-y(k-1)}{T} = u(k)
+\]</span> Which can be rewritten to: <span class="math display">\[
+y(k) = y(k-1) + Tu(k-1)
+\]</span></p>
+<p>this gives the approximation: <span class="math display">\[
+C(z)=\frac{Tz^{-1}}{1-z^{-1}}=\frac{T}{z-1}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/fcec5de7-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>Backward euler works like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SampledSystems_files/figure-html/2337acd2-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>It uses the current sample to estimate the area where forward uses the previous sample.</p>
+<p>Tustin does the same however that takes the average value of the current input and the previous input. <img src="SampledSystems_files/figure-html/b036a1aa-1-image.png" class="img-fluid" alt="image.png"></p>
+<p>Tustin works best of these methods however they do not give a guarantee that it working well. See for example the image below. <img src="SampledSystems_files/figure-html/472af217-1-image.png" class="img-fluid" alt="image.png"></p>
+</section>
+<section id="tustin-with-prewarping" class="level3">
+<h3 class="anchored" data-anchor-id="tustin-with-prewarping">Tustin with prewarping</h3>
+<p>tustin with prewarping is that you match the frequency responses of <span class="math inline">\(C(z)\)</span> and <span class="math inline">\(C(s)\)</span> at a specified freq <span class="math inline">\(\omega_p\)</span>. <img src="SampledSystems_files/figure-html/b18cf895-1-image.png" class="img-fluid" alt="image.png"></p>
+</section>
+<section id="pole-zero-matching" class="level3">
+<h3 class="anchored" data-anchor-id="pole-zero-matching">Pole-zero matching</h3>
+<p>In here you try to map all poles and zeros to the discrete domain. <img src="SampledSystems_files/figure-html/53e6a707-2-image.png" class="img-fluid" alt="image.png"> Although phase is different in discrete domain so it will never be exactly the same. <img src="SampledSystems_files/figure-html/53e6a707-1-image-2.png" class="img-fluid" alt="image-2.png"></p>
+<p>In practice tustin with prewarping is the best!</p>
+</section>
+</section>
+<section id="general-remarks" class="level2">
+<h2 class="anchored" data-anchor-id="general-remarks">General remarks</h2>
+<p>The smaller the sample time <span class="math inline">\(T\)</span>, The better the approximation In practice, choose sample frequency at least 20 times bandwidth <img src="SampledSystems_files/figure-html/74a2a0f3-1-image.png" class="img-fluid" alt="image.png"> Simulink chooses its own discretization method for <span class="math inline">\(C(s)\)</span> which uses zero-order hold nearly the same as forward euler for lower T. ShapeIt comes with the DCtools blockset, this blockset uses Tusin with prewarping. The prewarping frequencies are tuned for that specific subblock. So no general prewarping frequency anymore but a decent overall. However always measure your controller after designing.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
