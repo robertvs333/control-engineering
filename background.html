@@ -191,10 +191,20 @@ window.Quarto = {
 <figcaption>image.png</figcaption>
 </figure>
 </div>
-<p>The bode plot contains also more inforamtion: - the amplitude for <span class="math inline">\(\omega -&gt; 0\)</span> gives steady state ain in the output for a constant input - Amplitude for <span class="math inline">\(\omega -&gt; \inf\)</span> denotes the direct feedthrough: it denotes the output gain at a step on the input</p>
-<p>In physical systems poles are a system propety while zeors are a result of a specific actuator or sensor placement.</p>
-<p>A RHP zero occurs wehn actuator and sensor are on opposing ends of the CoG with sufficient distance</p>
-<p>What is wrong with RHP zeros: - Takes a while before system moves in the correct direction - Time domain: response effectively becomes ‘slower’ or delayed - Freq domain: the sstem looses extra phase - limits the achievable bandwidth</p>
+<p>The bode plot contains also more information:</p>
+<ul>
+<li>the amplitude for <span class="math inline">\(\omega -&gt; 0\)</span> gives steady state ain in the output for a constant input</li>
+<li>Amplitude for <span class="math inline">\(\omega -&gt; \inf\)</span> denotes the direct feedthrough: it denotes the output gain at a step on the input</li>
+</ul>
+<p>In physical systems, poles are a system propety while zeors are a result of a specific actuator or sensor placement.</p>
+<p>A RHP zero occurs when actuator and sensor are on opposing ends of the CoG with sufficient distance</p>
+<p>What is wrong with RHP zeros:</p>
+<ul>
+<li>Takes a while before system moves in the correct direction</li>
+<li>Time domain: response effectively becomes ‘slower’ or delayed</li>
+<li>Freq domain: the sstem looses extra phase</li>
+<li>limits the achievable bandwidth</li>
+</ul>
 <p><strong>Interpreting bode plot</strong></p>
 <ol type="1">
 <li>Start at low Frequencies: Determine the number of integrators</li>
