@@ -1,94 +1,38 @@
 [
   {
-    "objectID": "DesignForPerformance.html",
-    "href": "DesignForPerformance.html",
-    "title": "D) Design for performance",
+    "objectID": "Feedforward.html",
+    "href": "Feedforward.html",
+    "title": "E) Feedforward",
     "section": "",
-    "text": "Normally in feedback \\(e=r-y\\) rewriting this gives: \\[\\begin{equation}\n\\frac{e}{r} = \\frac{1}{1+HC} = S\n\\end{equation}\\]\nwhen using this y can be written as: \\[\\begin{equation}\ny = \\frac{H}{1+HC}d=S\\cdot Hd\n\\end{equation}\\]\nSo therefore feedback is: - advantageous when \\(|S|&lt;1\\) - disadvantageous when \\(|S| &gt; 1\\)\nHowever due to the bode sensitivity integral you cannot just ensure that \\(|S|\\) is always lower than 1. Becuase the area beneath \\(|S|\\) is always non-negative. Therefore shaping \\(|S|\\) is like a waterbed suppression for 1 frequency leads to a amplification elsewhere. This holds only where the open loops \\(L(s)\\) with relative degree 2 or higher."
+    "text": "Trajectory planning is a technique in which you simplify the trajectory which ensures that the error gets lower. Most often uses more differentiable signals. This leads to:\nThe DC-gain is the steady-state ain of a system where \\(\\omega\\) is 0. Often this is \\(\\frac{1}{K_p}\\)\nFeedforward is added to after the controller. Mostly the feedforward should actually be the inverse of the plant. However if the plant is unstable or unknown then we need to approximate the inverse of the plant in the time domain. Generally you forward the forces that are needed to:"
   },
   {
-    "objectID": "DesignForPerformance.html#closed-loop-transfer-functions",
-    "href": "DesignForPerformance.html#closed-loop-transfer-functions",
-    "title": "D) Design for performance",
-    "section": "Closed loop transfer functions",
-    "text": "Closed loop transfer functions\nSome standard closed loop transfer function are derived based on the image provided above.\nSensitivity: \\[\\begin{equation}\nS=\\frac{e}{r} = \\frac{u}{d} = \\frac{1}{1+HC}\n\\end{equation}\\]\nComplementary sensitivity: \\[\\begin{equation}\nT=\\frac{y}{r} = \\frac{y}{\\eta} = \\frac{HC}{1+HC}\n\\end{equation}\\]\nProcess sensitivity: \\[\\begin{equation}\nHS = \\frac{y}{d}=\\frac{H}{1+HC}\n\\end{equation}\\]\nControl Sensitivity: \\[\\begin{equation}\n    CS=\\frac{u}{r}=\\frac{C}{1+HC}\n\\end{equation}\\]\nSo the general goal is to minimize the error \\(e=0\\) -&gt; minimizing $SS and tracking the input \\(y=r\\) -&gt; \\(T\\approx1\\). This is both achieved when \\(HC\\) is maximized. this is called high-gain feedback."
+    "objectID": "Feedforward.html#tuning-of-feedforward",
+    "href": "Feedforward.html#tuning-of-feedforward",
+    "title": "E) Feedforward",
+    "section": "Tuning of Feedforward",
+    "text": "Tuning of Feedforward\n\n\n\nimage.png\n\n\nThe best trajectory to tune the parameters is approx 1/3 acceleration, 1/3 constant velocity, 1/3 deceleration.\nFirst the \\(K_{fc}\\) should be tuned. In such a way that the deceleration of the forward movement and acceleration of the backward movement have the same error.\nSecondly the \\(K_{fv}\\) must be tuned. There should be no error during constant velocity phases when \\(K_{fc}\\) and \\(K_{fv}\\) are correct.\nThirdly \\(K_{fa}\\) must be tuned to minize the error during acceleration and deceleration.\nFor this tuning the feedback controller should be just good enough to reasonably control the plant but should be not too good such that the error deminishes. The frequency of the reference signal should be such that the magnitude of the closed loop sensitivity is around -40. Or the bandwidth \\(f_{bw} \\ge \\frac{2}{t_{phase}} \\approx 20 hz\\) where \\(t_{phase}\\) is the length of each phase."
   },
   {
-    "objectID": "DesignForPerformance.html#bandwitdh",
-    "href": "DesignForPerformance.html#bandwitdh",
-    "title": "D) Design for performance",
-    "section": "Bandwitdh",
-    "text": "Bandwitdh\n\n\n\nimage.png\n\n\nMost often bandwidth should be chosen as high as possible but not more than necessary. This is also stated the other way around as: “Choose the bandwidth as low as possible, but such that the closed loop still meets its requirements”\n\n\n\nimage.png\n\n\n\n\n\nimage.png"
-  },
-  {
-    "objectID": "DesignForPerformance.html#controller-building-blocks",
-    "href": "DesignForPerformance.html#controller-building-blocks",
-    "title": "D) Design for performance",
-    "section": "Controller building blocks",
-    "text": "Controller building blocks\n\nIntegrator / PI-controller\n \n\n\n\nimage.png\n\n\n\n\nPD controller\n\n\n\nimage.png\n\n\n\n\nLead/lag filter\n  \n\n\nGeneral second order filter (skewed notch)\n\n\n\nimage.png\n\n\n\n\nSecond order filter (notch)\n  \n\n\nLowpass filters"
-  },
-  {
-    "objectID": "DesignForPerformance.html#loop-shaping",
-    "href": "DesignForPerformance.html#loop-shaping",
-    "title": "D) Design for performance",
-    "section": "Loop shaping",
-    "text": "Loop shaping"
-  },
-  {
-    "objectID": "SampledSystems.html",
-    "href": "SampledSystems.html",
-    "title": "F) Sampled systems and discrete-time domain",
+    "objectID": "Stability.html",
+    "href": "Stability.html",
+    "title": "C) Stability",
     "section": "",
-    "text": "Sometimes you can implement a controller that should theoretically be stable but is not stable. Due to the sampling.\n\\(C(s)\\) is therefore not the same as \\(C(z)\\). This can be solved by using two solutions: - Design it in the z-domain - discretize the filter, this is of course dependent on the sample rate\nMost controllers (99%) actually hold a signal because your plant expects a real-time input. You now have a delay of \\(1/2T_s\\) This creates a phase delay at least 90 degrees."
+    "text": "When using a feedback controller the poles become the zeros. However everytime checking how these poles changes based on the controller is not really feasible or intuitive, that is why nyquist criterion is designed\nThis criterion is based on encirclements the number of clockwise encirclements of the origin is denoted by \\(N=Z-P\\) in which Z is the number of enclosed zeors and P is the number of enclosed poles. this is evaluated on 1 + L(s) because:\nThe closed loop is stable when \\(Z\\) is 0 and therefore \\(Z=N+P=0\\)\nHowever this can be simplified to instead of 1+L(s) encirclements of origin to just L(s) encirclements of point(-1,0)\nThis can be translated to the bode plot and therefore a bode plot (L(s)) has the following necessary conditions for stability: - Slope $ at \\(w_{co}\\) - the phase must be between -180 and 0, therefore the curve meest keep (-1,0) to its left. - It must enter the unit disc to its left\nHowever the following sufficient conditions must also hold:"
   },
   {
-    "objectID": "SampledSystems.html#discrete-time-systems",
-    "href": "SampledSystems.html#discrete-time-systems",
-    "title": "F) Sampled systems and discrete-time domain",
-    "section": "Discrete time systems",
-    "text": "Discrete time systems\nDifferentiation in time domain is actually the same as difference in discrete time domain because you are just measuring the difference in time stamp k and time stamp k+1. That is why you can write this also down as: \\[\n\\begin{aligned}\nx(k+1)&=zx(k)\\\\\nx(k-1)&=z^{-1}x(k)\\\\\nx(k-N)&=z^{-N}x(k)\n\\end{aligned}\n\\] This means that the shift operator z is the discrete counterpart of laplace variable s: \\[\\begin{equation}\n\\dot{x}(s) = sx(s) &lt;-&gt; x(k+1) = zx(k)\n\\end{equation}\\]\n\n\n\nimage.png\n\n\nHowever you can also do this reversed so that:\n\n\n\nimage.png\n\n\nThe difference equations are very easy to implement in code.\nFor stability some differences occur. these are provided in the image below: \nHowever in discrete omega is most often like the following: \nthe stability is only when \\(|a| &lt; 1\\) because: \nSo that means poles can be on the RHP as long as they are in the unit discs. When the zeros are outside the unit discs they are minimum phase systems.\nWe substitute \\(ze^{j\\omega}\\) which is the stability boundary just like in continous into \\(H(z)\\) to obtain \\(H(jw)\\).\nBecause you are evaluating over the unit disc instead of over the imaginary axis you get taht the infromation in the bode blot is repeating itself. \n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nHowever it is easy to derive the impulse response. You just have to write it in the form: \nGeneral expansion of \\(H(z)\\) is infinite. Sometimes it is a Finite Impulse Response. This is also called a FIR.\n\n\n\nimage.png"
+    "objectID": "Stability.html#stability-margins",
+    "href": "Stability.html#stability-margins",
+    "title": "C) Stability",
+    "section": "Stability Margins",
+    "text": "Stability Margins\nA system is stable or not however it does have some robustness measurements. These are also called phase margin and gain margin. They are also provided in the plot below.\nThe PM is the phase lead above -180 at the frequency where \\(|L(s)| = 0dB\\),\nThe inverse of GM is the gain at the frequency where \\(\\angle L(j\\omega) = -180^\\circ\\)\nThe modulus margin (MM) is the inverse of the smallest distance of \\(L(j\\omega)\\) over all \\(\\omega\\) to the point -1. The distance of the point -1 to \\(L(j\\omega)\\) is given by: \\[L(j\\omega) - (-1) = 1 + L(j\\omega)\\]\nNote that the modulus margin is therefore the minimal value of this function. Also know that the Sensitivity is given as: \\[S(j\\omega) = \\frac{1}{1 + L(j\\omega)}\\] Therefore sensitivity is the inverse of the distance and therefore the minimal value of the distance function is the same as the maximal value of the sensitivity function."
   },
   {
-    "objectID": "SampledSystems.html#how-to-convert-controller-from-continuous-to-discretized-time",
-    "href": "SampledSystems.html#how-to-convert-controller-from-continuous-to-discretized-time",
-    "title": "F) Sampled systems and discrete-time domain",
-    "section": "How to convert controller from continuous to discretized time?",
-    "text": "How to convert controller from continuous to discretized time?\n\n\n\nimage.png\n\n\n\nTime domain approximations\nIn this we have to make assumptions on behaviour of \\(u(t)\\) between samples. Aka we have to assume waht the controller is doing between t(k) and t(k+1). for eurler this is to hold so \\(u(t)\\) is constant between samples for Tusin, this means that there is a linear change from u(k-1) to u(k). For the upcoming explanation we are going to use continuous time integrator \\(C(s) = \\frac{1}{s}\\). To explain how to achieve this. Btw a integrator is basically trying to calculate the surface beneath the curve \\(u(t)\\).\nFor euler there are two methods one is called the forward euler. This is based on the forward difference quotient: \\[\n\\begin{aligned}\n\\dot{y}(t)&=u(t)\\\\\n\\dot{y}(t)&\\approx \\frac{y(t+T)-y(t)}{T} =&gt;\\frac{y(k+1)-y(k)}{T} = u(k)\n\\end{aligned}\n\\]\nShifting this in time gives: \\[\n\\frac{y(k)-y(k-1)}{T} = u(k)\n\\] Which can be rewritten to: \\[\ny(k) = y(k-1) + Tu(k-1)\n\\]\nthis gives the approximation: \\[\nC(z)=\\frac{Tz^{-1}}{1-z^{-1}}=\\frac{T}{z-1}\n\\]\n\n\n\nimage.png\n\n\nBackward euler works like this:\n\n\n\nimage.png\n\n\nIt uses the current sample to estimate the area where forward uses the previous sample.\nTustin does the same however that takes the average value of the current input and the previous input. \nTustin works best of these methods however they do not give a guarantee that it working well. See for example the image below. \n\n\nTustin with prewarping\ntustin with prewarping is that you match the frequency responses of \\(C(z)\\) and \\(C(s)\\) at a specified freq \\(\\omega_p\\). \n\n\nPole-zero matching\nIn here you try to map all poles and zeros to the discrete domain.  Although phase is different in discrete domain so it will never be exactly the same. \nIn practice tustin with prewarping is the best!"
-  },
-  {
-    "objectID": "SampledSystems.html#general-remarks",
-    "href": "SampledSystems.html#general-remarks",
-    "title": "F) Sampled systems and discrete-time domain",
-    "section": "General remarks",
-    "text": "General remarks\nThe smaller the sample time \\(T\\), The better the approximation In practice, choose sample frequency at least 20 times bandwidth  Simulink chooses its own discretization method for \\(C(s)\\) which uses zero-order hold nearly the same as forward euler for lower T. ShapeIt comes with the DCtools blockset, this blockset uses Tusin with prewarping. The prewarping frequencies are tuned for that specific subblock. So no general prewarping frequency anymore but a decent overall. However always measure your controller after designing."
-  },
-  {
-    "objectID": "background.html",
-    "href": "background.html",
-    "title": "A) Background and prerequisites",
-    "section": "",
-    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more information:\n\nthe amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input\nAmplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\n\nIn physical systems, poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs when actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros:\n\nTakes a while before system moves in the correct direction\nTime domain: response effectively becomes ‘slower’ or delayed\nFreq domain: the sstem looses extra phase\nlimits the achievable bandwidth\n\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
-  },
-  {
-    "objectID": "Sample.html",
-    "href": "Sample.html",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
-  },
-  {
-    "objectID": "Sample.html#testing-custom-styles",
-    "href": "Sample.html#testing-custom-styles",
-    "title": "Style Test",
-    "section": "",
-    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
-  },
-  {
-    "objectID": "FRFMeasurements.html",
-    "href": "FRFMeasurements.html",
-    "title": "B) FRF measurements",
-    "section": "",
-    "text": "A time signal can be adjusted to frequency by using Fourier series expansion.\n\n\n\nimage.png\n\n\nThe power of a signal is the RMS value which is the root mean squared. The Parseval’s theorem states that the power in time domain is equal to the power in frequency domain. The power per frequency is called the power spectral density (PSD). Using therefore RMS and parseval theorem and given the complex fourier series that results in:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nTherefore minimzing the error RMS requires the minimization of the cumulative PSD. So using this you can shape your sensetivity to adjust for specific frequency ranges.\n\n\n\nimage.png\n\n\nThe common power per frequency is then given as: This is also known as Cross Power Spectral Density (CPSD). To find whether 2 signals are simalar you compute CPSD of several frames of the signals and average them. Therefore averaging has affect on the outcome of this. CPSD is a complex number and therefore also has a phase.\n You multiply with the complex conjugate of the input Fourier transform. Such that it sets up the math to isolate correlated signals from uncorrelated noise using CPSD. We can minize the effect of \\(v(t)\\) by: - making sure \\(u(t)\\) and \\(v(t)\\) are uncorrelated - by taking multiple data series \\(N\\) and averaging them\nCoherence\nIt basiclly says how reliable our measurement is.\n\n\n\nimage.png\n\n\nBut also averaging is applied such that it is more reliable\n\n\n\nimage.png"
+    "objectID": "Stability.html#what-does-that-mean-for-designing-a-controller",
+    "href": "Stability.html#what-does-that-mean-for-designing-a-controller",
+    "title": "C) Stability",
+    "section": "What does that mean for designing a controller",
+    "text": "What does that mean for designing a controller\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png"
   },
   {
     "objectID": "index.html",
@@ -112,38 +56,94 @@
     "text": "Lecture Notes"
   },
   {
-    "objectID": "Feedforward.html",
-    "href": "Feedforward.html",
-    "title": "E) Feedforward",
+    "objectID": "DesignForPerformance.html",
+    "href": "DesignForPerformance.html",
+    "title": "D) Design for performance",
     "section": "",
-    "text": "Trajectory planning is a technique in which you simplify the trajectory which ensures that the error gets lower. Most often uses more differentiable signals. This leads to: - less oscillations - possibly faster settling times - smaller control signals\nThe DC-gain is the steady-state ain of a system where \\(\\omega\\) is 0. Often this is $\nFeedforward is added to after the controller. Mostly the feedforward should actually be the inverse of the plant. However if the plant is unstable or unknown then we need to approximate the inverse of the plant in the time domain. Generally you forward the forces that are needed to: - accelerate the rigid body mode of the plant \\(F_a = K_{fa}\\ddot x_s\\) - overcome the viscous friction with the fixed world: \\(F_v = K_{fv} \\dot x_s\\) - overcome the coulomb friction with the fixed world: \\(F_c = K_{fc} \\cdot sign(\\dot x_s)\\)"
+    "text": "Normally in feedback \\(e=r-y\\) rewriting this gives: \\[\\begin{equation}\n\\frac{e}{r} = \\frac{1}{1+HC} = S\n\\end{equation}\\]\nwhen using this y can be written as: \\[\\begin{equation}\ny = \\frac{H}{1+HC}d=S\\cdot Hd\n\\end{equation}\\]\nSo therefore feedback is:\nHowever due to the bode sensitivity integral you cannot just ensure that \\(|S|\\) is always lower than 1. Because the area beneath \\(|S|\\) is always non-negative. Therefore shaping \\(|S|\\) is like a waterbed suppression for 1 frequency leads to a amplification elsewhere. This holds only where the open loops \\(L(s)\\) with relative degree 2 or higher."
   },
   {
-    "objectID": "Feedforward.html#tuning-of-feedforward",
-    "href": "Feedforward.html#tuning-of-feedforward",
-    "title": "E) Feedforward",
-    "section": "Tuning of Feedforward",
-    "text": "Tuning of Feedforward\n\n\n\nimage.png\n\n\nThe best trajectory to tune the parameters is approx 1/3 acceleration, 1/3 constant velocity, 1/3 deceleration.\nFirst the \\(K_{fc}\\) should be tuned. In such a way that the deceleration of the forward movement and acceleration of the backward movement have the same error.\nSecondly the \\(K_{fv}\\) must be tunes. There should be no error during constant velocity phases when \\(K_{fc}\\) and \\(K_{fv}\\) are correct.\nThirdly \\(K_{fa}\\) must be tuned to minize the error during acceleration and deceleration.\nFor this tuning the feedback controller should be just good enough to reasonably control the plant but should be not too good such that the error deminishes. The frequency of the reference signal should be such that the magnitude of the closed loop sensitivity is around -40. Or the bandwidth $f_{bw} hz $ where \\(t_{phase}\\) is the length of each phase."
+    "objectID": "DesignForPerformance.html#closed-loop-transfer-functions",
+    "href": "DesignForPerformance.html#closed-loop-transfer-functions",
+    "title": "D) Design for performance",
+    "section": "Closed loop transfer functions",
+    "text": "Closed loop transfer functions\nSome standard closed loop transfer function are derived based on the image provided above.\nSensitivity: \\[\\begin{equation}\nS=\\frac{e}{r} = \\frac{u}{d} = \\frac{1}{1+HC}\n\\end{equation}\\]\nComplementary sensitivity: \\[\\begin{equation}\nT=\\frac{y}{r} = \\frac{y}{\\eta} = \\frac{HC}{1+HC}\n\\end{equation}\\]\nProcess sensitivity: \\[\\begin{equation}\nHS = \\frac{y}{d}=\\frac{H}{1+HC}\n\\end{equation}\\]\nControl Sensitivity: \\[\\begin{equation}\n    CS=\\frac{u}{r}=\\frac{C}{1+HC}\n\\end{equation}\\]\nSo the general goal is to minimize the error \\(e=0\\) -&gt; minimizing \\(S\\) and tracking the input \\(y=r\\) -&gt; \\(T\\approx1\\). This is both achieved when \\(HC\\) is maximized. this is called high-gain feedback."
   },
   {
-    "objectID": "Stability.html",
-    "href": "Stability.html",
-    "title": "C) Stability",
+    "objectID": "DesignForPerformance.html#bandwitdh",
+    "href": "DesignForPerformance.html#bandwitdh",
+    "title": "D) Design for performance",
+    "section": "Bandwitdh",
+    "text": "Bandwitdh\n\n\n\nimage.png\n\n\nMost often bandwidth should be chosen as high as possible but not more than necessary. This is also stated the other way around as: “Choose the bandwidth as low as possible, but such that the closed loop still meets its requirements”\n\n\n\nimage.png\n\n\n\n\n\nimage.png"
+  },
+  {
+    "objectID": "DesignForPerformance.html#controller-building-blocks",
+    "href": "DesignForPerformance.html#controller-building-blocks",
+    "title": "D) Design for performance",
+    "section": "Controller building blocks",
+    "text": "Controller building blocks\n\nIntegrator / PI-controller\n \n\n\n\nimage.png\n\n\n\n\nPD controller\n\n\n\nimage.png\n\n\n\n\nLead/lag filter\n  \n\n\nGeneral second order filter (skewed notch)\n\n\n\nimage.png\n\n\n\n\nSecond order filter (notch)\n  \n\n\nLowpass filters"
+  },
+  {
+    "objectID": "DesignForPerformance.html#loop-shaping",
+    "href": "DesignForPerformance.html#loop-shaping",
+    "title": "D) Design for performance",
+    "section": "Loop shaping",
+    "text": "Loop shaping"
+  },
+  {
+    "objectID": "background.html",
+    "href": "background.html",
+    "title": "A) Background and prerequisites",
     "section": "",
-    "text": "When using a feedback controller the poles become the zeros. However everytime checking how these poles changes based on the controller is not really feasible or intuitive, that is why nyquist criterion is designed\nThis criterion is based on encirclements the number of clockwise encirclements of the origin is denoted by \\(N=Z-P\\) in which Z is the number of enclosed zeors and P is the number of enclosed poles. this is evaluated on 1 + L(s) because: - Poles of 1 + L(s) -&gt; open-loop poles - Zeros of 1 + L(s) -&gt; closed-loop poles\nThe closed loop is stable when \\(Z\\) is 0 and therefore \\(Z=N+P=0\\)\nHowever this can be simplified to instead of 1+L(s) encirclements of origin to just L(s) encirclements of point(-1,0)\nThis can be translated to the bode plot and therefore a bode plot (L(s)) has the following necessary conditions for stability: - Slope $ at \\(w_{co}\\) - the phase must be between -180 and 0, therefore the curve meest keep (-1,0) to its left. - It must enter the unit disc to its left\nHowever the following sufficient conditions must also hold: - All poles and zeros of \\(L(S)=C(s)H(s)\\) must lie strictly in the LHP - Single crossover. The magnitude crosses 0dB once and never crosses it again."
+    "text": "The order of the system is found by the difference between the number of poles and the number of zeros (denominator degree minus numerator degree)\nDeriving the limits is done using the following:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nThe bode plot contains also more information:\n\nthe amplitude for \\(\\omega -&gt; 0\\) gives steady state ain in the output for a constant input\nAmplitude for \\(\\omega -&gt; \\inf\\) denotes the direct feedthrough: it denotes the output gain at a step on the input\n\nIn physical systems, poles are a system propety while zeors are a result of a specific actuator or sensor placement.\nA RHP zero occurs when actuator and sensor are on opposing ends of the CoG with sufficient distance\nWhat is wrong with RHP zeros:\n\nTakes a while before system moves in the correct direction\nTime domain: response effectively becomes ‘slower’ or delayed\nFreq domain: the sstem looses extra phase\nlimits the achievable bandwidth\n\nInterpreting bode plot\n\nStart at low Frequencies: Determine the number of integrators\nMove to high freq: Determine Relative degree: the slope corresponds to the relative degree\nMid-Freq:\n\nResonances (sharp peaks) or anti-resonances (sharp dips) indicate complex-conjugated poles/zeros.\nBreak points (Real poles & zeros)\nthe crossover frequency defines the bandwith. The crossover frequency is where the magnitude crosses 0 dB\nThe phase margin is the phase difference between the phase and -180 at this crossover frequency"
   },
   {
-    "objectID": "Stability.html#stability-margins",
-    "href": "Stability.html#stability-margins",
-    "title": "C) Stability",
-    "section": "Stability Margins",
-    "text": "Stability Margins\nA system is stable or not however it does have some robustness measurements. These are also called phase margin and gain margin. They are also provided in the plot below.\nThe PM is the phase lead above -180 at the frequency where \\(|L(s)| = 0dB\\),\nThe inverse of GM is the gain at the frequency where \\(\\angle L(j\\omega) = -180^\\circ\\)\nThe modulus margin (MM) is the inverse of the smallest distance of \\(L(j\\omega)\\) over all \\(\\omega\\) to the point -1. The distance of the point -1 to \\(L(j\\omega)\\) is given by: \\[L(j\\omega) - (-1) = 1 + L(j\\omega)\\]\nNote that the modulus margin is therefore the minimal value of this function. Also know that the Sensitivity is given as: \\[S(j\\omega) = \\frac{1}{1 + L(j\\omega)}\\] Therefore sensitivity is the inverse of the distance and therefore the minimal value of the distance function is the same as the maximal value of the sensitivity function."
+    "objectID": "SampledSystems.html",
+    "href": "SampledSystems.html",
+    "title": "F) Sampled systems and discrete-time domain",
+    "section": "",
+    "text": "Sometimes you can implement a controller that should theoretically be stable but is not stable. Due to the sampling.\n\\(C(s)\\) is therefore not the same as \\(C(z)\\). This can be solved by using two solutions:\nMost controllers (99%) actually hold a signal because your plant expects a real-time input. You now have a delay of \\(1/2T_s\\) This creates a phase delay at least 90 degrees."
   },
   {
-    "objectID": "Stability.html#what-does-that-mean-for-designing-a-controller",
-    "href": "Stability.html#what-does-that-mean-for-designing-a-controller",
-    "title": "C) Stability",
-    "section": "What does that mean for designing a controller",
-    "text": "What does that mean for designing a controller\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\n\n\n\nimage.png"
+    "objectID": "SampledSystems.html#discrete-time-systems",
+    "href": "SampledSystems.html#discrete-time-systems",
+    "title": "F) Sampled systems and discrete-time domain",
+    "section": "Discrete time systems",
+    "text": "Discrete time systems\nDifferentiation in time domain is actually the same as difference in discrete time domain because you are just measuring the difference in time stamp k and time stamp k+1. That is why you can write this also down as: \\[\n\\begin{aligned}\nx(k+1)&=zx(k)\\\\\nx(k-1)&=z^{-1}x(k)\\\\\nx(k-N)&=z^{-N}x(k)\n\\end{aligned}\n\\] This means that the shift operator z is the discrete counterpart of laplace variable s: \\[\\begin{equation}\n\\dot{x}(s) = sx(s) &lt;-&gt; x(k+1) = zx(k)\n\\end{equation}\\]\n\n\n\nimage.png\n\n\nHowever you can also do this reversed so that:\n\n\n\nimage.png\n\n\nThe difference equations are very easy to implement in code.\nFor stability some differences occur. these are provided in the image below: \nHowever in discrete omega is most often like the following: \nthe stability is only when \\(|a| &lt; 1\\) because: \nSo that means poles can be on the RHP as long as they are in the unit discs. When the zeros are outside the unit discs they are minimum phase systems.\nWe substitute \\(ze^{j\\omega}\\) which is the stability boundary just like in continous into \\(H(z)\\) to obtain \\(H(jw)\\).\nBecause you are evaluating over the unit disc instead of over the imaginary axis you get that the infromation in the bode blot is repeating itself. \n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nHowever it is easy to derive the impulse response. You just have to write it in the form: \nGeneral expansion of \\(H(z)\\) is infinite. Sometimes it is a Finite Impulse Response. This is also called a FIR.\n\n\n\nimage.png"
+  },
+  {
+    "objectID": "SampledSystems.html#how-to-convert-controller-from-continuous-to-discretized-time",
+    "href": "SampledSystems.html#how-to-convert-controller-from-continuous-to-discretized-time",
+    "title": "F) Sampled systems and discrete-time domain",
+    "section": "How to convert controller from continuous to discretized time?",
+    "text": "How to convert controller from continuous to discretized time?\n\n\n\nimage.png\n\n\n\nTime domain approximations\nIn this we have to make assumptions on behaviour of \\(u(t)\\) between samples. Aka we have to assume what the controller is doing between t(k) and t(k+1). for eurler this is to hold so \\(u(t)\\) is constant between samples\nfor Tusin, this means that there is a linear change from u(k-1) to u(k). For the upcoming explanation we are going to use continuous time integrator \\(C(s) = \\frac{1}{s}\\). To explain how to achieve this. Btw a integrator is basically trying to calculate the surface beneath the curve \\(u(t)\\).\nFor euler there are two methods one is called the forward euler. This is based on the forward difference quotient: \\[\n\\begin{aligned}\n\\dot{y}(t)&=u(t)\\\\\n\\dot{y}(t)&\\approx \\frac{y(t+T)-y(t)}{T} =&gt;\\frac{y(k+1)-y(k)}{T} = u(k)\n\\end{aligned}\n\\]\nShifting this in time gives: \\[\n\\frac{y(k)-y(k-1)}{T} = u(k)\n\\] Which can be rewritten to: \\[\ny(k) = y(k-1) + Tu(k-1)\n\\]\nthis gives the approximation: \\[\nC(z)=\\frac{Tz^{-1}}{1-z^{-1}}=\\frac{T}{z-1}\n\\]\n\n\n\nimage.png\n\n\nBackward euler works like this:\n\n\n\nimage.png\n\n\nIt uses the current sample to estimate the area where forward uses the previous sample.\nTustin does the same however that takes the average value of the current input and the previous input. \nTustin works best of these methods however they do not give a guarantee that it working well. See for example the image below. \n\n\nTustin with prewarping\ntustin with prewarping is that you match the frequency responses of \\(C(z)\\) and \\(C(s)\\) at a specified freq \\(\\omega_p\\). \n\n\nPole-zero matching\nIn here you try to map all poles and zeros to the discrete domain.  Although phase is different in discrete domain so it will never be exactly the same. \nIn practice tustin with prewarping is the best!"
+  },
+  {
+    "objectID": "SampledSystems.html#general-remarks",
+    "href": "SampledSystems.html#general-remarks",
+    "title": "F) Sampled systems and discrete-time domain",
+    "section": "General remarks",
+    "text": "General remarks\nThe smaller the sample time \\(T\\), The better the approximation In practice, choose sample frequency at least 20 times bandwidth  Simulink chooses its own discretization method for \\(C(s)\\) which uses zero-order hold nearly the same as forward euler for lower T. ShapeIt comes with the DCtools blockset, this blockset uses Tusin with prewarping. The prewarping frequencies are tuned for that specific subblock. So no general prewarping frequency anymore but a decent overall. However always measure your controller after designing."
+  },
+  {
+    "objectID": "Sample.html",
+    "href": "Sample.html",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "Sample.html#testing-custom-styles",
+    "href": "Sample.html#testing-custom-styles",
+    "title": "Style Test",
+    "section": "",
+    "text": "NoteBlue Note Test\n\n\n\nIf this box has a dark blue header and light blue body, your styles.css is working correctly.\n\n\n\n\n\n\n\n\nWarningOrange Warning Test\n\n\n\nIf this box has a dark orange header and light orange body, your custom warning style is working correctly."
+  },
+  {
+    "objectID": "FRFMeasurements.html",
+    "href": "FRFMeasurements.html",
+    "title": "B) FRF measurements",
+    "section": "",
+    "text": "A time signal can be adjusted to frequency by using Fourier series expansion.\n\n\n\nimage.png\n\n\nThe power of a signal is the RMS value which is the root mean squared. The Parseval’s theorem states that the power in time domain is equal to the power in frequency domain. The power per frequency is called the power spectral density (PSD). Using therefore RMS and parseval theorem and given the complex fourier series that results in:\n\n\n\nimage.png\n\n\n\n\n\nimage.png\n\n\nTherefore minimzing the error RMS requires the minimization of the cumulative PSD. So using this you can shape your sensetivity to adjust for specific frequency ranges.\n\n\n\nimage.png\n\n\nThe common power per frequency is then given as: \\(S_{uv}(f) = U(f)V^*(f)\\) This is also known as Cross Power Spectral Density (CPSD). To find whether 2 signals are simalar you compute CPSD of several frames of the signals and average them. Therefore averaging has affect on the outcome of this. CPSD is a complex number and therefore also has a phase.\n You multiply with the complex conjugate of the input Fourier transform. Such that it sets up the math to isolate correlated signals from uncorrelated noise using CPSD. We can minize the effect of \\(v(t)\\) by:\n\nmaking sure \\(u(t)\\) and \\(v(t)\\) are uncorrelated\nby taking multiple data series \\(N\\) and averaging them\n\nCoherence\nIt basiclly says how reliable our measurement is.\n\n\n\nimage.png\n\n\nBut also averaging is applied such that it is more reliable\n\n\n\nimage.png"
   }
 ]

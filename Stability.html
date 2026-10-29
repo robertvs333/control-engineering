@@ -45,7 +45,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-166690b9c768161ed89deb9505a7d440.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -179,7 +179,11 @@ window.Quarto = {
 
 
 <p>When using a feedback controller the poles become the zeros. However everytime checking how these poles changes based on the controller is not really feasible or intuitive, that is why nyquist criterion is designed</p>
-<p>This criterion is based on encirclements the number of clockwise encirclements of the origin is denoted by <span class="math inline">\(N=Z-P\)</span> in which Z is the number of enclosed zeors and P is the number of enclosed poles. this is evaluated on 1 + L(s) because: - Poles of 1 + L(s) -&gt; open-loop poles - Zeros of 1 + L(s) -&gt; closed-loop poles</p>
+<p>This criterion is based on encirclements the number of clockwise encirclements of the origin is denoted by <span class="math inline">\(N=Z-P\)</span> in which Z is the number of enclosed zeors and P is the number of enclosed poles. this is evaluated on 1 + L(s) because:</p>
+<ul>
+<li>Poles of 1 + L(s) -&gt; open-loop poles</li>
+<li>Zeros of 1 + L(s) -&gt; closed-loop poles</li>
+</ul>
 <p>The closed loop is stable when <span class="math inline">\(Z\)</span> is 0 and therefore <span class="math inline">\(Z=N+P=0\)</span></p>
 <p>However this can be simplified to instead of 1+L(s) encirclements of origin to just L(s) encirclements of point(-1,0)</p>
 <div class="quarto-figure quarto-figure-center">
@@ -189,7 +193,11 @@ window.Quarto = {
 </figure>
 </div>
 <p>This can be translated to the bode plot and therefore a bode plot (L(s)) has the following necessary conditions for stability: - Slope $ at <span class="math inline">\(w_{co}\)</span> - the phase must be between -180 and 0, therefore the curve meest keep (-1,0) to its left. - It must enter the unit disc to its left</p>
-<p>However the following sufficient conditions must also hold: - All poles and zeros of <span class="math inline">\(L(S)=C(s)H(s)\)</span> must lie strictly in the LHP - Single crossover. The magnitude crosses 0dB once and never crosses it again.</p>
+<p>However the following sufficient conditions must also hold:</p>
+<ul>
+<li>All poles and zeros of <span class="math inline">\(L(S)=C(s)H(s)\)</span> must lie strictly in the LHP</li>
+<li>Single crossover. The magnitude crosses 0dB once and never crosses it again.</li>
+</ul>
 <section id="stability-margins" class="level2">
 <h2 class="anchored" data-anchor-id="stability-margins">Stability Margins</h2>
 <p>A system is stable or not however it does have some robustness measurements. These are also called phase margin and gain margin. They are also provided in the plot below.<img src="Stability_files/figure-html/c9caadda-1-image.png" class="img-fluid" alt="image.png"></p>
